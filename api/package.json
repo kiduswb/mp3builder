@@ -1,0 +1,16 @@
+{
+  "name": "mp3builder-api",
+  "version": "1.0.0",
+  "description": "mp3builder.net API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "nodemon index.js"
+  },
+  "author": "Kidus Bewket",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.1",
+    "mongoose": "^8.8.1"
+  }
+}
