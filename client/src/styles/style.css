@@ -36,6 +36,34 @@ body {
     color: #5593c7;
 }
 
+.btn-lime {
+    background-color: transparent;
+    border-color: #44BBA4;
+    color: #44BBA4;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.btn-lime:hover {
+    background-color: #44BBA4;
+    color: #F6F7EB;
+}
+
+.text-lime {
+    color: #44BBA4
+}
+
+.bg-error {
+    background-color: #E94F37;
+}
+
+.bg-blue {
+    background-color: #3F88C5;
+}
+
+.text-ivory {
+    color: #F6F7EB;
+}
+
 /* Hero */
 
 .hero-img {
