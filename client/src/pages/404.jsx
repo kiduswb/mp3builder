@@ -11,8 +11,8 @@ function NotFound()
                 <div className="row py-5">
                     <div className="col-lg-6 py-5 mx-auto text-center">
                         <h1><i className="fa fa-info-circle me-2"></i> 404 - Not Found</h1>
-                        <p className="lead">The page you're looking for is not found.</p>
-                        <Link className="link" to="/">&larr; Return Home</Link>
+                        <p className="lead">the page you're looking for is NOT here bruh 😭🙏</p>
+                        <Link className="link" to="/"><i className="fa fa-arrow-left me-2"></i> Return Home</Link>
                     </div>
                 </div>
             </div>

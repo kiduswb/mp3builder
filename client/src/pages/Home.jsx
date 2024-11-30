@@ -1,7 +1,7 @@
 // Home.jsx
 
 import Header from "../components/Header"
-import DownloadBox from "../components/DownloadBox"
+import DownloaderBox from "../components/DownloaderBox"
 import Footer from "../components/Footer"
 
 function Home()
@@ -9,7 +9,7 @@ function Home()
     return (
         <>
             <Header />
-            <DownloadBox />
+            <DownloaderBox />
             <Footer />
         </>
     )

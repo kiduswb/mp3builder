@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import ScrollWrapper from './helpers/ScrollWrapper'
+import ScrollWrapper from './config/ScrollWrapper'
 
 import Home from './pages/Home'
 import Legal from './pages/Legal'

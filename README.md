@@ -2,14 +2,13 @@
 
 <!-- !TODO: Add badges here. -->
 
-A free and open-source YouTube-to-MP3 tool and MP3 tag editor. 
-Download MP3s from YouTube with your custom MP3 tag data.
+MP3 builder is a tool for extracting MP3 files from YouTube videos and downloading the files 
+with custom MP3 metadata (title, artist name, tags, etc.).
 
 ## Features
 
 - Download high-quality audio files from YouTube links
-- Update MP3 tags and metadata 
-- Upload your own MP3 files to change tag info
+- Update MP3 tags and metadata
 - Zero ads or trackers
 - Files remain on servers for 2 hours before automatic deletion
 

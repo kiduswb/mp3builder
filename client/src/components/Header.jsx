@@ -9,7 +9,7 @@ function Header()
                     <img src="/logo.svg" alt="MP3Builder Logo" className="hero-img" />
                     <h1>MP3Builder</h1>
                     <p className="lead">
-                        Convert YouTube videos to MP3 files with custom metadata.
+                        Download MP3 files from YouTube with custom tags and metadata.
                     </p>
                 </div>
             </div>

@@ -1,19 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+/* Fonts & Layout */
+
+@font-face {
+    font-family: "Rubik-Regular.ttf";
+    src: url("/Rubik-Regular.ttf");
+}
 
 * {
     font-family: 'Rubik', sans-serif;
 }
 
-/* Layout */
-
 #root {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-}
-
-main {
-    flex: 1 0 auto;
 }
 
 .footer {
@@ -29,11 +28,11 @@ body {
 
 .link {
     text-decoration: none;
-    color: #57a7e9;
+    color: #44BBA4;
 }
 
 .link:hover {
-    color: #5593c7;
+    color: #2d8573;
 }
 
 .btn-lime {
@@ -64,9 +63,15 @@ body {
     color: #F6F7EB;
 }
 
-/* Hero */
+/* Header */
 
 .hero-img {
     width: 100%;
     height: 120px;
+}
+
+/* Download Box */
+
+.form-control-dark::placeholder {
+    color: #919191 !important;
 }
