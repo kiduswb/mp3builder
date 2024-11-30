@@ -4,23 +4,88 @@ import { useState } from "react"
 
 function DownloaderBox()
 {
+    
+    const [error, setError] = useState(null)
+    const [downloadLink, setDownloadLink] = useState(null)
 
-    const handleSubmit = () => {
-        //...
+    const handleSubmit = (e) => 
+    {
+        e.preventDefault()
+        setError(null)
+        setDownloadLink(null)
+
+        // Validate YouTube Link
+
+        const ytLink = document.getElementById("yt-link").value
+        
+        if (ytLink === "") {
+            setError("Please enter a YouTube link.")
+            return
+        }
+
+        // Validate Tags
+
+        const title = document.getElementById("title").value
+        const artists = document.getElementById("artists").value
+        const album = document.getElementById("album").value
+        const year = document.getElementById("year").value
+        const genres = document.getElementById("genres").value
+        const comments = document.getElementById("comments").value
+        const track_number = document.getElementById("track_number").value
+
+        if (title === "" || artists === "" || album === "" || genres === "" || year === "" || comments === "" || track_number === "") {
+            setError("Please fill in all fields.")
+            return
+        }
+
+        if(title.length > 100, artists.length > 100, album.length > 100, year.length > 100, genres.length > 100, comments.length > 100, track_number.length > 100) {
+            setError("All fields must be less than 100 characters.")
+            return
+        }
+        
+        const commaRegex = /^(?:[\w\s]+)(?:,\s*[\w\s]+)*$/
+
+        if(!commaRegex.test(genres)) {
+            setError("Genres must be comma separated.")
+            return
+        }
+
+        if(!commaRegex.test(artists)) {
+            setError("Artists must be comma separated.")
+            return
+        }
+
+        const yearRegex = /^\d{4}$/
+
+        if(!yearRegex.test(year)) {
+            setError("Please enter a valid year.")
+            return
+        }
+
+        if(!track_number.isNaN()) { 
+            setError("Track number must be a number.")
+            return
+        }
+
+        // Send off to API, download file and return download link
+        // ...
     }
-
+    
     return (
         <section className="container mb-5">
             <div className="row">
                 <div className="col-lg-6 mx-auto">
                     <div className="card p-3 rounded-0 shadow bg-dark text-ivory">
                         
-                        <div className="py-3">
-                            <div className="alert rounded-0 bg-danger text-light">
-                                <i className="fa fa-exclamation-triangle me-2"></i>
-                                Sample error message.
+                        {
+                            error &&
+                            <div className="py-3">
+                                <div className="alert rounded-0 bg-danger text-light">
+                                    <i className="fa fa-exclamation-triangle me-2"></i>
+                                    {error}
+                                </div>
                             </div>
-                        </div>
+                        }
 
                         <div className="d-flex flex-column gap-2 mb-4">
                             <h4>Step 1 &mdash; Enter YouTube Link</h4>
@@ -29,35 +94,47 @@ function DownloaderBox()
 
                         <div className="d-flex flex-column gap-2 mb-5">
                             <h4 className="mb-3">Step 2 &mdash; Edit Tags & Download MP3 File</h4>
-                            <form onSubmit={handleSubmit()}>
+                            <form onSubmit={handleSubmit} encType="multipart/form-data">
                                 <div className="mb-3">
                                     <label htmlFor="formFile" className="form-label">Upload Cover Art</label>
-                                    <input type="file" className="form-control form-control-dark bg-dark text-light rounded-0" />
+                                    <input type="file" accept="image/*" className="form-control form-control-dark bg-dark text-light rounded-0" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Title" />
+                                    <input type="text" id="title" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Title" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Artist" />
+                                    <input type="text" id="artists" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Artist(s) - enter a comma separated list" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Album" />
+                                    <input type="text" id="album" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Album" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Year" />
+                                    <input type="text" id="year" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Year" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Genre" />
+                                    <input type="text" id="genres" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Genre(s) - enter a comma separated list" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Comments" />
+                                    <input type="text" id="comments" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Comments" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Track Number" />
+                                    <input type="text" id="track_number" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Track Number" />
                                 </div>
-                                <button className="btn btn-lime btn-lg rounded-0 col-12">
-                                    <i className="fa fa-file-download me-2"></i> Download MP3 File
-                                </button>
+                                <div className="mb-3">
+                                    <button className="btn btn-lime btn-lg rounded-0 col-12">
+                                        <i className="fa fa-file-download me-2"></i> Download MP3 File
+                                    </button>
+                                </div>
+
+                                {
+                                    downloadLink &&
+                                    <div className="alert rounded-0 bg-success text-light">
+                                        <i className="fa fa-check-circle me-2"></i>
+                                        Here's your download link -
+                                        <a href={downloadLink} className="link-light ms-2">{downloadLink}</a>
+                                    </div>
+                                }
+
                             </form>
                         </div>
 

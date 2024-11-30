@@ -8,7 +8,9 @@ import NotFound from './pages/404'
 function App () 
 {
   	return (
-		<BrowserRouter>
+		<BrowserRouter future={
+			{ v7_startTransition: true, v7_relativeSplatPath: true }
+		}>
 			<ScrollWrapper>
 				<Routes>
 					<Route path="/" element={<Home />} />
