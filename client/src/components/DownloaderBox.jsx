@@ -7,7 +7,7 @@ function DownloaderBox()
     
     const [error, setError] = useState(null)
     const [downloadLink, setDownloadLink] = useState(null)
-
+    
     const handleSubmit = (e) => 
     {
         e.preventDefault()
@@ -25,6 +25,7 @@ function DownloaderBox()
 
         // Validate Tags
 
+        const album_art = document.getElementById("album_art").files[0]
         const title = document.getElementById("title").value
         const artists = document.getElementById("artists").value
         const album = document.getElementById("album").value
@@ -38,13 +39,12 @@ function DownloaderBox()
             return
         }
 
-        if(title.length > 100, artists.length > 100, album.length > 100, year.length > 100, genres.length > 100, comments.length > 100, track_number.length > 100) {
+        if(title.length > 100 || artists.length > 100 || album.length > 100 || year.length > 100 || genres.length > 100 || comments.length > 100 || track_number.length > 100) {
             setError("All fields must be less than 100 characters.")
             return
         }
         
         const commaRegex = /^(?:[\w\s]+)(?:,\s*[\w\s]+)*$/
-
         if(!commaRegex.test(genres)) {
             setError("Genres must be comma separated.")
             return
@@ -56,19 +56,25 @@ function DownloaderBox()
         }
 
         const yearRegex = /^\d{4}$/
-
         if(!yearRegex.test(year)) {
             setError("Please enter a valid year.")
             return
         }
 
-        if(!track_number.isNaN()) { 
+        const trackNumberRegex = /^\d+$/
+        if(!trackNumberRegex.test(track_number)) { 
             setError("Track number must be a number.")
             return
         }
 
-        // Send off to API, download file and return download link
-        // ...
+        // Validate album artwork
+        if (album_art === undefined) {
+            setError("Please upload album artwork.")
+            return
+        }
+
+        // Process Form Submission
+        //...
     }
     
     return (
@@ -97,28 +103,28 @@ function DownloaderBox()
                             <form onSubmit={handleSubmit} encType="multipart/form-data">
                                 <div className="mb-3">
                                     <label htmlFor="formFile" className="form-label">Upload Cover Art</label>
-                                    <input type="file" accept="image/*" className="form-control form-control-dark bg-dark text-light rounded-0" />
+                                    <input type="file" required name="album_art" id="album_art" accept="image/*" className="form-control form-control-dark bg-dark text-light rounded-0" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" id="title" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Title" />
+                                    <input type="text" name="title" id="title" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Title" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" id="artists" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Artist(s) - enter a comma separated list" />
+                                    <input type="text" name="artists" id="artists" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Artist(s) - enter a comma separated list" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" id="album" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Album" />
+                                    <input type="text" name="album" id="album" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Album" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" id="year" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Year" />
+                                    <input type="text" name="year" id="year" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Year" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" id="genres" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Genre(s) - enter a comma separated list" />
+                                    <input type="text" name="genres" id="genres" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Genre(s) - enter a comma separated list" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" id="comments" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Comments" />
+                                    <input type="text" name="comments" id="comments" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Comments" />
                                 </div>
                                 <div className="mb-3">
-                                    <input type="text" id="track_number" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Track Number" />
+                                    <input type="text" name="track_number" id="track_number" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Track Number" />
                                 </div>
                                 <div className="mb-3">
                                     <button className="btn btn-lime btn-lg rounded-0 col-12">

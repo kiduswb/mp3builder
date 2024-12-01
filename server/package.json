@@ -11,10 +11,12 @@
 	"author": "Kidus Bewket",
 	"license": "MIT",
 	"dependencies": {
+		"body-parser": "^1.20.3",
 		"cors": "^2.8.5",
 		"dotenv": "^16.4.5",
 		"express": "^4.21.1",
 		"mp3tag.js": "^3.11.2",
+		"multer": "^1.4.5-lts.1",
 		"ytdl-core": "^4.11.5"
 	},
 	"devDependencies": {
