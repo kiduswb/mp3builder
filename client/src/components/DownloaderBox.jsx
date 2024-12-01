@@ -1,6 +1,7 @@
 // DownloaderBox.jsx
 
 import { useState } from "react"
+import axiosInstance from "../config/axiosInstance.js"
 
 function DownloaderBox()
 {
@@ -16,9 +17,9 @@ function DownloaderBox()
 
         // Validate YouTube Link
 
-        const ytLink = document.getElementById("yt-link").value
+        const yt_link = document.getElementById("yt-link").value
         
-        if (ytLink === "") {
+        if (yt_link === "") {
             setError("Please enter a YouTube link.")
             return
         }
@@ -67,14 +68,42 @@ function DownloaderBox()
             return
         }
 
-        // Validate album artwork
+        // Validate album art file
+
         if (album_art === undefined) {
             setError("Please upload album artwork.")
             return
         }
 
-        // Process Form Submission
-        //...
+        if(album_art.type !== "image/jpeg" && album_art.type !== "image/png" && album_art.type !== "image/jpg") {
+            setError("Please upload a JPEG or PNG file.")
+            return
+        }
+
+        if(album_art.size > 25 * 1000000) {
+            setError("Please upload album artwork files less than 25MB.")
+            return
+        }
+
+        // Process data
+
+        axiosInstance.post("/convert", {
+            yt_link: yt_link,
+            album_art: album_art,
+            title: title,
+            artists: artists,
+            album: album,
+            year: year,
+            genres: genres,
+            comments: comments,
+            track_number: track_number
+        })
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
     
     return (

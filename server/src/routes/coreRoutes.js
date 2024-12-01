@@ -6,6 +6,11 @@ import { convertYouTubeLink, cleanupCRON } from '../controllers/mainController.j
 const router = Router()
 
 router.post('/api/convert', convertYouTubeLink)
-router.get('/api/cron/cleanup', cleanupCRON)
+router.get('/api/cron', cleanupCRON)
+
+router.get('/downloads/:filename', (req, res) => {
+    const filename = req.params.filename
+    res.download('./downloads/' + filename)
+})
 
 export default router
