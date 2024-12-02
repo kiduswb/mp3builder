@@ -9,7 +9,7 @@ import MP3Tag from 'mp3tag.js'
 export const convertYouTubeLink = async (req, res) => {    
     
     //...
-
+    await new Promise(resolve => setTimeout(resolve, 3000));
     return res.status(201).json({ download_link: "https://example.com/download.mp3" })
 };
 

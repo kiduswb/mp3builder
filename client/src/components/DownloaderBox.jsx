@@ -86,6 +86,9 @@ function DownloaderBox()
 
         // Process data
 
+        document.getElementById("download-btn").classList.add("d-none")
+        document.getElementById("loader").classList.remove("d-none")
+
         const formData = new FormData()
         formData.append("album_art", album_art)
         formData.append("title", title)
@@ -103,8 +106,17 @@ function DownloaderBox()
 
         const response = await result.json()
         
-        console.log(response.download_link)
-        console.log(result.status)
+        if(result.ok) {
+            document.getElementById("loader").classList.add("d-none")
+            document.getElementById("download-btn").classList.remove("d-none")
+            setDownloadLink(response.download_link)
+            document.getElementById("download-form").reset();
+            document.getElementById("yt-link").value = ""
+        } else {
+            setError(response.error)
+            document.getElementById("loader").classList.add("d-none")
+            document.getElementById("download-btn").classList.remove("d-none")
+        }
     }
     
     return (
@@ -112,16 +124,6 @@ function DownloaderBox()
             <div className="row">
                 <div className="col-lg-6 mx-auto">
                     <div className="card p-3 rounded-0 shadow bg-dark text-ivory">
-                        
-                        {
-                            error &&
-                            <div className="py-3">
-                                <div className="alert rounded-0 bg-danger text-light">
-                                    <i className="fa fa-exclamation-triangle me-2"></i>
-                                    {error}
-                                </div>
-                            </div>
-                        }
 
                         <div className="d-flex flex-column gap-2 mb-4">
                             <h4>Step 1 &mdash; Enter YouTube Link</h4>
@@ -129,8 +131,8 @@ function DownloaderBox()
                         </div>
 
                         <div className="d-flex flex-column gap-2 mb-5">
-                            <h4 className="mb-3">Step 2 &mdash; Edit Tags & Download MP3 File</h4>
-                            <form onSubmit={handleSubmit} encType="multipart/form-data">
+                            <h4 className="mb-3">Step 2 &mdash; Add Tags & Download MP3 File</h4>
+                            <form id="download-form" onSubmit={handleSubmit} encType="multipart/form-data">
                                 <div className="mb-3">
                                     <label htmlFor="formFile" className="form-label">Upload Cover Art</label>
                                     <input type="file" required name="album_art" id="album_art" accept="image/*" className="form-control form-control-dark bg-dark text-light rounded-0" />
@@ -153,21 +155,37 @@ function DownloaderBox()
                                 <div className="mb-3">
                                     <input type="text" name="comments" id="comments" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Comments" />
                                 </div>
-                                <div className="mb-3">
+                                <div className="mb-4">
                                     <input type="text" name="track_number" id="track_number" className="form-control form-control-dark bg-dark text-light rounded-0" placeholder="Track Number" />
                                 </div>
-                                <div className="mb-3">
-                                    <button className="btn btn-lime btn-lg rounded-0 col-12">
+
+                                <div className="d-flex justify-content-center gap-2 mb-3" id="download-btn">
+                                    <button type="submit" className="btn btn-lime btn-lg rounded-0 col-12">
                                         <i className="fa fa-file-download me-2"></i> Download MP3 File
                                     </button>
                                 </div>
 
+                                <div className="d-flex justify-content-center gap-2 mb-3 d-none" id="loader">
+                                    <i className="fas fa-cog fa-spin"></i> Processing your MP3 file, please don't refresh this page...
+                                </div>
+
+                                {
+                                    error &&
+                                    <div className="mb-3">
+                                        <div className="alert rounded-0 bg-danger text-light">
+                                            <i className="fa fa-exclamation-triangle me-2"></i>
+                                            {error}
+                                        </div>
+                                    </div>
+                                }
+
                                 {
                                     downloadLink &&
-                                    <div className="alert rounded-0 bg-success text-light">
-                                        <i className="fa fa-check-circle me-2"></i>
-                                        Here's your download link -
-                                        <a href={downloadLink} className="link-light ms-2">{downloadLink}</a>
+                                    <div className="alert rounded-0 bg-success text-light mb-3">
+                                        <h4 className="alert-heading"><i className="fa fa-check-circle me-2"></i> MP3 file successfully converted!</h4>
+                                        <p>
+                                            Your download should start automatically. If it doesn't, <a href={downloadLink} className="link-light">click here</a> to download it manually. Your link will expire in 2 hours.
+                                        </p>
                                     </div>
                                 }
 
