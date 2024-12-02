@@ -1,6 +1,7 @@
 // DownloaderBox.jsx
 
 import { useState } from "react"
+import saveAs from 'file-saver'
 
 function DownloaderBox()
 {
@@ -90,6 +91,7 @@ function DownloaderBox()
         document.getElementById("loader").classList.remove("d-none")
 
         const formData = new FormData()
+        formData.append("yt_link", yt_link)
         formData.append("album_art", album_art)
         formData.append("title", title)
         formData.append("artists", artists)
@@ -106,13 +108,29 @@ function DownloaderBox()
 
         const response = await result.json()
         
-        if(result.ok) {
+        if(result.ok) 
+        {
+            // Update UI
             document.getElementById("loader").classList.add("d-none")
             document.getElementById("download-btn").classList.remove("d-none")
-            setDownloadLink(response.download_link)
             document.getElementById("download-form").reset();
             document.getElementById("yt-link").value = ""
-        } else {
+
+            // Fetch download link and attempt to download
+            setDownloadLink(response.download_link)
+            
+            try {
+                const file_response = await fetch(response.download_link)
+                const blob = await file_response.blob()
+                saveAs(blob, `${title} - ${artists}_mp3builder.net.mp3`)
+            } 
+            
+            catch (error) {
+                console.error("Failed to automatically download file. Please download it manually.")
+            }
+        } 
+        
+        else {
             setError(response.error)
             document.getElementById("loader").classList.add("d-none")
             document.getElementById("download-btn").classList.remove("d-none")

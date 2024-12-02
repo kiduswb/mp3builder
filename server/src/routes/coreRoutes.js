@@ -6,6 +6,6 @@ import { convertYouTubeLink, cleanupCRON } from '../controllers/mainController.j
 const router = Router()
 
 router.post('/api/convert', convertYouTubeLink)
-router.get('/api/cron', cleanupCRON)
+router.get('/cron/cleanup', cleanupCRON)
 
 export default router
