@@ -7,8 +7,8 @@ with custom MP3 metadata (title, artist name, tags, etc.).
 
 ## Features
 
-- Download high-quality audio files from YouTube links
-- Update MP3 tags and metadata
+- Download high-quality audio files from YouTube
+- Customize MP3 tags when downloading from YouTube
 - Zero ads or trackers
 - Files remain on servers for 2 hours before automatic deletion
 
