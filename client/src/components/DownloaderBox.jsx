@@ -122,7 +122,7 @@ function DownloaderBox()
             try {
                 const file_response = await fetch(response.download_link)
                 const blob = await file_response.blob()
-                saveAs(blob, `${title} - ${artists}_mp3builder.net.mp3`)
+                saveAs(blob, `${title} - ${artists}_converted_mp3builder.net.mp3`)
             } 
             
             catch (error) {
@@ -202,7 +202,7 @@ function DownloaderBox()
                                     <div className="alert rounded-0 bg-success text-light mb-3">
                                         <h4 className="alert-heading"><i className="fa fa-check-circle me-2"></i> MP3 file successfully converted!</h4>
                                         <p>
-                                            Your download should start automatically. If it doesn't, <a href={downloadLink} className="link-light">click here</a> to download it manually. Your link will expire in 2 hours.
+                                            Your download should start automatically. If it doesn't, <a download href={downloadLink} className="link-light">click here</a> to download it manually. Your link will expire in 2 hours.
                                         </p>
                                     </div>
                                 }
