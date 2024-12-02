@@ -1,28 +1,16 @@
 // mainController.js
 
-
+import fs from 'fs'
+import ytdl from '@distube/ytdl-core'
+import ffmpeg from 'fluent-ffmpeg'
+import MP3Tag from 'mp3tag.js'
 
 // Converts YouTube link to MP3 file with custom metadata
-export const convertYouTubeLink = (req, res) => 
-{    
-    // Move uploaded album art to uploads folder
-    const album_art = req.files.album_art
-    const album_art_filename = Date.now() + "_" + album_art.name
+export const convertYouTubeLink = async (req, res) => {    
     
-    try {
-        album_art.mv('./uploads/' + album_art_filename)
-    } catch (err) {
-        return res.sendStatus(500)
-    }
-
-    // Download MP3 from YouTube link and place into ./uploads
     //...
 
-    // Change MP3 metadata and tags
-    // ...
-
-    // Move MP3 file to ./downloads and send link to client
-    // ...
+    return res.status(201).json({ download_link: "https://example.com/download.mp3" })
 };
 
 // Deletes uploads and downloads that are more than 2 hours

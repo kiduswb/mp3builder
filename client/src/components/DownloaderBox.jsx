@@ -1,7 +1,6 @@
 // DownloaderBox.jsx
 
 import { useState } from "react"
-import axiosInstance from "../config/axiosInstance.js"
 
 function DownloaderBox()
 {
@@ -9,7 +8,7 @@ function DownloaderBox()
     const [error, setError] = useState(null)
     const [downloadLink, setDownloadLink] = useState(null)
     
-    const handleSubmit = (e) => 
+    const handleSubmit = async (e) => 
     {
         e.preventDefault()
         setError(null)
@@ -87,23 +86,25 @@ function DownloaderBox()
 
         // Process data
 
-        axiosInstance.post("/convert", {
-            yt_link: yt_link,
-            album_art: album_art,
-            title: title,
-            artists: artists,
-            album: album,
-            year: year,
-            genres: genres,
-            comments: comments,
-            track_number: track_number
+        const formData = new FormData()
+        formData.append("album_art", album_art)
+        formData.append("title", title)
+        formData.append("artists", artists)
+        formData.append("album", album)
+        formData.append("year", year)
+        formData.append("genres", genres)
+        formData.append("comments", comments)
+        formData.append("track_number", track_number)
+
+        const result = await fetch(`${import.meta.env.VITE_BASE_API_URL}/convert`, {
+            method: "POST",
+            body: formData
         })
-        .then(res => {
-            console.log(res)
-        })
-        .catch(err => {
-            console.log(err)
-        })
+
+        const response = await result.json()
+        
+        console.log(response.download_link)
+        console.log(result.status)
     }
     
     return (
