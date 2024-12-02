@@ -8,6 +8,7 @@ import ffmpeg from 'fluent-ffmpeg'
 import nodeID3 from 'node-id3'
 
 import streamToBuffer from '../utils/streamToBuffer.js'
+import { Cookie } from 'tough-cookie'
 
 // Convert YouTube link to MP3
 export const convertYouTubeLink = async (req, res) => 
@@ -81,7 +82,15 @@ export const convertYouTubeLink = async (req, res) =>
         const videoUploadPromise = videoUploader.done()
 
         // Pipe YouTube download to upload stream
-        ytdl(yt_link, { quality: 'highestaudio' })
+        ytdl(yt_link, 
+            { 
+                quality: 'highestaudio',
+                requestOptions: {
+                    headers: {
+                        Cookie: process.env.YT_COOKIE
+                    }
+                }
+            })
             .pipe(videoPassThrough)
 
         // Wait for video upload to complete
