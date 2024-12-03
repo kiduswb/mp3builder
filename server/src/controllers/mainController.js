@@ -86,7 +86,7 @@ export const convertYouTubeLink = async (req, res) =>
         // Pipe YouTube download to upload stream
         const agent = ytdl.createAgent(JSON.parse(fs.readFileSync(process.env.COOKIES_FILE)));
 
-        ytdl(yt_link, {quality: 'highestaudio', agent: agent})
+        ytdl(yt_link, {quality: 'highestaudio', agent: agent, playerClients: ['WEB'], requestOptions: {headers: {"referer": "https://www.youtube.com"}}})
             .pipe(videoPassThrough)
 
         // Wait for video upload to complete
