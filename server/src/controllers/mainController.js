@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { v4 as uuidv4 } from 'uuid'
 import { S3Client, GetObjectCommand, DeleteObjectCommand, ListObjectsV2Command, DeleteObjectsCommand } from '@aws-sdk/client-s3'
 import { Upload } from '@aws-sdk/lib-storage'
@@ -8,7 +9,6 @@ import ffmpeg from 'fluent-ffmpeg'
 import nodeID3 from 'node-id3'
 
 import streamToBuffer from '../utils/streamToBuffer.js'
-import { Cookie } from 'tough-cookie'
 
 // Convert YouTube link to MP3
 export const convertYouTubeLink = async (req, res) => 
@@ -80,17 +80,15 @@ export const convertYouTubeLink = async (req, res) =>
 
         // Start upload in background
         const videoUploadPromise = videoUploader.done()
+        
 
         // Pipe YouTube download to upload stream
+        const agent = ytdl.createAgent(JSON.parse(fs.readFileSync(process.env.COOKIES_FILE, 'utf-8')));
+
         ytdl(yt_link, 
             { 
                 quality: 'highestaudio',
-                requestOptions: {
-                    headers: {
-                        Cookie: process.env.YT_COOKIE,
-                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
-                    }
-                }
+                agent: agent
             })
             .pipe(videoPassThrough)
 
