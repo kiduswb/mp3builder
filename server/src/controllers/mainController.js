@@ -64,6 +64,7 @@ export const convertYouTubeLink = async (req, res) =>
                 ContentType: album_art.mimetype
             }
         })
+
         await albumArtUploader.done()
 
         // Download YouTube video to S3
@@ -83,12 +84,12 @@ export const convertYouTubeLink = async (req, res) =>
         
 
         // Pipe YouTube download to upload stream
-        const agent = ytdl.createAgent(JSON.parse(fs.readFileSync(process.env.COOKIES_FILE, 'utf-8')));
+        const agent = ytdl.createAgent(JSON.parse(fs.readFileSync(process.env.COOKIES_FILE)));
 
         ytdl(yt_link, 
             { 
                 quality: 'highestaudio',
-                agent: agent
+                agent: agent,
             })
             .pipe(videoPassThrough)
 
@@ -158,7 +159,7 @@ export const convertYouTubeLink = async (req, res) =>
             trackNumber: tags.track,
             image: {
                 mime: "image/jpeg",
-                type: { id: 3, name: "front cover" }, // Front cover type
+                type: { id: 3, name: "front cover" },
                 description: "Album Cover",
                 imageBuffer: albumArtBuffer
             }
@@ -215,7 +216,7 @@ export const convertYouTubeLink = async (req, res) =>
         })
 
     } catch (e) {
-        console.error('Conversion Error:', e)
+        console.error('Conversion Error: ', e)
         return res.status(500).json({ 
             error: "Server error. Please try again later."
         })
@@ -248,7 +249,7 @@ export const cleanupCRON = async (req, res) =>
         }
 
         const now = new Date();
-        const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000); // 2 hours ago
+        const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000);
 
         // Filter objects older than 2 hours
         const objectsToDelete = listResponse.Contents.filter((obj) => {
@@ -272,7 +273,7 @@ export const cleanupCRON = async (req, res) =>
             message: `${objectsToDelete.length} files deleted successfully.`,
         });
     } catch (error) {
-        console.error("Cleanup Error:", error); //!TODO: Add error logging later
+        console.error("Cleanup Error: ", error); //!TODO: Add error logging later
         return res.status(500).json({
             error: "Server error during cleanup. Please try again later.",
         });
