@@ -1,6 +1,6 @@
 # MP3Builder
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/1d018998-c0c0-4f7f-b4f1-bb07ba13086e/deploy-status)](https://app.netlify.com/sites/mp3builder/deploys)
+**Important: MP3Builder will be sunsetted July 2025. I'll no longer host it, but please feel free to self host if you found it useful. Thank you for your support!**
 
 A free and open-source web app for editing MP3 tags and metadata (ID3v2).
 
